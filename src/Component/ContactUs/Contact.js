@@ -2,7 +2,11 @@ import { useState } from "react";
 import "./Contact.css";
 import ContactList from "../ContactList/ContactList";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 export default function Contact() {
+
+    const navigate = useNavigate();
+
     const [name, setName] = useState('');
     const [number1, setNumber1] = useState('');
     const [number2, setNumber2] = useState('');
@@ -20,13 +24,18 @@ export default function Contact() {
     function handleNumber3Change(event) {
         setNumber3(event.target.value);
     }
+    function handleToCancel(){
+        navigate("/")
+    }
     function handleToSave() {
-        let contactObj = {name: name,contactList: [number1, number2, number3]};
+        let contactObj = { name: name, contactList: [number1, number2, number3] };
         console.log(contactObj);
-        axios.post("http://localhost:4200/ContactList",contactObj)
-        .then((Response)=>{
-            console.log(Response.data);
-        })
+        axios.post("http://localhost:4200/ContactList", contactObj)
+            .then((Response) => {
+                console.log(Response.data);
+                    navigate("/contactlist");
+
+            })
 
     }
     return (
@@ -59,7 +68,7 @@ export default function Contact() {
                 </div>
                 <div className="button">
                     <button onClick={handleToSave}>Save</button>
-                    <button>Cancel</button>
+                    <button onClick={handleToCancel}>Cancel</button>
                 </div>
             </div>
 
